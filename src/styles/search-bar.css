@@ -1,0 +1,26 @@
+.search-bar {
+    display: flex;
+    margin-bottom: 15px;
+}
+
+.search-bar__input {
+    background: #5A5C66;
+    color: #FFF;
+    border: none;
+    border-radius: 0;
+    padding: 15px 0 18px 26px;
+    width: clamp(200px, 75vw, 631px);
+}
+
+.search-bar__input::placeholder {
+    font: 1em 'Roboto', sans-serif;
+    color: #B2B7BF;
+}
+
+.search-bar__button {
+    cursor: pointer;
+    background: #5A5C66;
+    border: none;
+    padding: 0 1rem;
+}
+

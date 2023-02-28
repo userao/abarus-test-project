@@ -1,0 +1,27 @@
+.posts {
+    display: grid;
+    color: #FFF;
+    grid-template-columns: 1fr 2fr 3fr;
+    font: 1em 'Roboto', sans-serif;
+}
+
+.posts__header {
+    background: #474955;
+    padding: 19px 0 16px 0;
+}
+
+.posts__header:nth-child(1) {
+    padding-left: 23px;
+}
+.posts__header:nth-child(2) {
+    padding-left: 25%;
+}
+.posts__header:nth-child(3) {
+    padding-left: 25%;
+}
+
+.posts__item {
+    color: #474955;
+    border: solid #E3E6EC 1px;
+    font: semi-bold 13px 'Roboto', sans-serif;
+}
