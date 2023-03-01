@@ -1,0 +1,27 @@
+.pagination {
+    display: flex;
+    justify-content: space-between;
+    margin: 1rem auto;
+    width: 90%;
+    color: #474955;
+}
+
+.pagination__nav-button {
+    cursor: pointer;
+    font: normal 500 1.3rem 'Roboto', sans-serif;
+}
+
+.pagination__page-buttons-container {
+    display: flex;
+    align-items: center;
+    font: italic bold 1rem 'Roboto', sans-serif;
+}
+
+.pagination__page-button {
+    padding: 0.5rem;
+    cursor: pointer;
+}
+
+.page-active {
+    color: #7EBC3C;
+}

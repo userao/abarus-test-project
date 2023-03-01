@@ -1,42 +1,35 @@
 import React, { useEffect } from "react";
+import axios from "axios";
 import SearchBar from "./components/SearchBar";
 import Posts from "./components/Posts";
-import { actions } from './slices/PostsSlice';
+import Pagination from "./components/Pagination";
+import { actions, postsSelectors } from './slices/PostsSlice';
 import { IPost } from './types/postsTypes';
-import { useAppDispatch } from './app/hooks';
+import { useAppDispatch, useAppSelector } from './app/hooks';
+import routes from "./routes";
 
 function App() {
   const dispatch = useAppDispatch();
-  const posts: IPost[] = [
-    {
-      "userId": 1,
-      "id": 1,
-      "title": "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
-      "body": "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto"
-    },
-    {
-      "userId": 1,
-      "id": 2,
-      "title": "qui est esse",
-      "body": "est rerum tempore vitae\nsequi sint nihil reprehenderit dolor beatae ea dolores neque\nfugiat blanditiis voluptate porro vel nihil molestiae ut reiciendis\nqui aperiam non debitis possimus qui neque nisi nulla"
-    },
-    {
-      "userId": 1,
-      "id": 3,
-      "title": "ea molestias quasi exercitationem repellat qui ipsa sit aut",
-      "body": "et iusto sed quo iure\nvoluptatem occaecati omnis eligendi aut ad\nvoluptatem doloribus vel accusantium quis pariatur\nmolestiae porro eius odio et labore et velit aut"
-    },
-  ]
+//   const allPosts = useAppSelector(state => postsSelectors.selectAll(state));
+  const { currentPage, postsPerPage } = useAppSelector((state) => state.posts);
 
   useEffect(() => {
-    dispatch(actions.addPosts(posts));
-  }, []);
+    async function fetchPosts() {
+      const response = await axios.get<IPost[]>(routes.getPosts());
+      return response;
+    }
 
+    fetchPosts().then((response) => {
+      dispatch(actions.addPosts(response.data));
+      dispatch(actions.setTotalCount(response.data.length));
+    });
+  }, []);
 
   return (
     <div className="container">
       <SearchBar />
-      <Posts />
+      <Posts page={currentPage} postsPerPage={postsPerPage} />
+      <Pagination />
     </div>
   );
 }
