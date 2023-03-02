@@ -9,9 +9,9 @@ const Post: React.FC<IPostProps> = ({ post }): ReactElement => {
   const { id, title, body } = post;
   return (
     <>
-      <div className="posts__item posts__item-id">{id}</div>  
-      <div className="posts__item posts__item-title">{title}</div>  
-      <div className="posts__item posts__item-body">{body}</div>  
+      <div className="posts__item posts__item-id"><p>{id}</p></div>  
+      <div className="posts__item posts__item-title"><p>{title}</p></div>  
+      <div className="posts__item posts__item-body"><p>{body}</p></div>  
     </>
   );
 };

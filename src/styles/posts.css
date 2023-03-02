@@ -1,27 +1,36 @@
 .posts {
     display: grid;
     color: #FFF;
-    grid-template-columns: 1fr 2fr 3fr;
+    grid-template-columns: 0.7fr 3fr 4fr;
     font: 1em 'Roboto', sans-serif;
 }
 
 .posts__header {
+    color: #FFF;
+    border: none;
     background: #474955;
     padding: 19px 0 16px 0;
 }
 
-.posts__header:nth-child(1) {
-    padding-left: 15%;
-}
-.posts__header:nth-child(2) {
-    padding-left: 25%;
-}
-.posts__header:nth-child(3) {
-    padding-left: 25%;
+.sort-button {
+    cursor: pointer;
+    background: none;
+    border: none;
 }
 
 .posts__item {
+    display: flex;
+    align-items: center;
     color: #474955;
     border: solid #E3E6EC 1px;
-    font: semi-bold 1em 'Roboto', sans-serif;
+    padding: 1rem;
+    vertical-align: middle;
+}
+
+.posts__item-id {
+    justify-content: center;
+}
+
+.chevron {
+    margin-left: 40px;
 }

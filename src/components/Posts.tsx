@@ -1,14 +1,23 @@
 import React, { ReactElement, useEffect, useState } from "react";
+import { ChevronDown, ChevronUp } from "react-bootstrap-icons";
 import Post from "./Post";
 import { setSortedColumn } from "../slices/PostsSlice";
 import "../styles/posts.css";
 import { IPost } from "../types/postsTypes";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
+import BlankLine from "./BlankLine";
 
 const Posts: React.FC = (): ReactElement => {
-  const { normalizedPosts, postsPerPage, currentPage } = useAppSelector((state) => state.posts);
+  const { normalizedPosts, postsPerPage, currentPage, isSortedByAsc, sortedColumn } =
+    useAppSelector((state) => state.posts);
   const [shownPosts, setShownPosts] = useState<IPost[]>([]);
   const dispatch = useAppDispatch();
+  const numberOfEmptyLines = 10 - shownPosts.length;
+  const emptyLines = [];
+  for (let i = 0; i < numberOfEmptyLines; i += 1) {
+    emptyLines.push(<BlankLine />);
+  }
+
 
   useEffect(() => {
     const firstPostIndex = (currentPage - 1) * postsPerPage;
@@ -19,8 +28,8 @@ const Posts: React.FC = (): ReactElement => {
       return false;
     });
     setShownPosts(posts);
-  }, [currentPage, postsPerPage, setShownPosts, normalizedPosts])
-  
+  }, [currentPage, postsPerPage, setShownPosts, normalizedPosts]);
+
   function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
     const columnName = e.currentTarget.name;
     dispatch(setSortedColumn(columnName));
@@ -28,15 +37,37 @@ const Posts: React.FC = (): ReactElement => {
 
   return (
     <div className="posts">
-      <div className="posts__header">ID<button className="sort-button" name="id" onClick={handleClick}>+</button></div>
-      <div className="posts__header">Заголовок<button className="sort-button" name="title" onClick={handleClick}>+</button></div>
-      <div className="posts__header">Описание<button className="sort-button" name="body" onClick={handleClick}>+</button></div>
+      <button className="posts__header" name="id" onClick={handleClick}>
+        ID
+        {sortedColumn === "id" && !isSortedByAsc ? (
+          <ChevronUp className={"chevron"} size={16} color="white" />
+        ) : (
+          <ChevronDown className={"chevron"} size={16} color="white" />
+        )}
+      </button>
+      <button className="posts__header" name="title" onClick={handleClick}>
+        Заголовок
+        {sortedColumn === "title" && !isSortedByAsc ? (
+          <ChevronUp className={"chevron"} size={16} color="white" />
+        ) : (
+          <ChevronDown className={"chevron"} size={16} color="white" />
+        )}
+      </button>
+      <button className="posts__header" name="body" onClick={handleClick}>
+        Описание
+        {sortedColumn === "body" && !isSortedByAsc ? (
+          <ChevronUp className={"chevron"} size={16} color="white" />
+        ) : (
+          <ChevronDown className={"chevron"} size={16} color="white" />
+        )}
+      </button>
       {shownPosts.map((post) => {
         if (post) {
           return <Post key={post.id} post={post} />;
         }
         return null;
       })}
+      {numberOfEmptyLines && emptyLines};
     </div>
   );
 };

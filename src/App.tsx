@@ -30,7 +30,7 @@ function sortPosts(posts: IPost[], sortedColumn: string, isAsc: boolean) {
       return firstVal - secondVal;
     } else if (typeof firstVal === 'string' && typeof secondVal === 'string'){
       return firstVal.localeCompare(secondVal);
-    };
+    }
 
     return 0;
   });
