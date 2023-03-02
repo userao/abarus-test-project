@@ -1,42 +1,65 @@
-import { createEntityAdapter, createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { RootState } from "../app/store";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import axios from "axios";
+import { AppDispatch } from "../app/store";
+import routes from "../routes";
 import { IPost } from "../types/postsTypes";
 
-// const fetchPosts = createAsyncThunk(
-//   'posts/fetchPosts',
-//   async () => {
-//     const response = await userAPI.fetchById(userId)
-//     return response.data
-//   }
-// )
+interface IPostsState {
+  allPosts: IPost[],
+  totalCount: number,
+  currentPage: number,
+  normalizedPosts: IPost[],
+  postsPerPage: number,
+  searchParam: string,
+  sortedColumn: string,
+  isSortedByAsc: boolean,
+}
 
-const postsAdapter = createEntityAdapter<IPost>();
-
-const initialState = {
-  currentPage: 1,
-  postsPerPage: 10,
+const initialState: IPostsState = {
+  allPosts: [],
   totalCount: 0,
-  searchBy: "",
-  ...postsAdapter.getInitialState(),
+  currentPage: 1,
+  normalizedPosts: [],
+  postsPerPage: 10,
+  searchParam: '',
+  sortedColumn: 'id',
+  isSortedByAsc: true,
 };
 
 const postsSlice = createSlice({
-  name: "posts",
+  name: 'posts',
   initialState,
   reducers: {
-    addPosts: postsAdapter.addMany,
-    setTotalCount: (state, { payload }) => {
-      state.totalCount = payload;
+    addPosts(state, action: PayloadAction<IPost[]>) {
+      state.allPosts = action.payload;
     },
-    setCurrentPage: (state, { payload }) => {
-      state.currentPage = payload;
+    setCurrentPage(state, action: PayloadAction<number>) {
+      state.currentPage = action.payload;
     },
-    setSearchBy: (state, { payload }) => {
-      state.searchBy = payload;
+    setSearchParam(state, action: PayloadAction<string>) {
+      state.searchParam = action.payload;
     },
-  },
+    setNormalizedPosts(state, action: PayloadAction<IPost[]>) {
+      state.normalizedPosts = action.payload;
+    },
+    setTotalCount(state, action: PayloadAction<number>) {
+      state.totalCount = action.payload;
+    },
+    setSortedColumn(state, action: PayloadAction<string>) {
+      if (action.payload === state.sortedColumn) {
+        state.isSortedByAsc = !state.isSortedByAsc;
+      } else {
+        state.sortedColumn = action.payload;
+      }
+    },
+  }
 });
 
-export const postsSelectors = postsAdapter.getSelectors((state: RootState) => state.posts);
-export const { actions } = postsSlice;
+export const fetchPosts = () => async (dispatch: AppDispatch) => {
+  axios.get(routes.getPosts()).then((response) => {
+    dispatch(postsSlice.actions.addPosts(response.data));
+    dispatch(postsSlice.actions.setTotalCount(response.data.length));
+  });
+};
+export const { addPosts, setCurrentPage, setNormalizedPosts, setSearchParam, setSortedColumn } = postsSlice.actions;
 export default postsSlice.reducer;

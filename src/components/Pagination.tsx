@@ -1,22 +1,29 @@
 import React from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { actions } from "../slices/PostsSlice";
+import { setCurrentPage } from "../slices/PostsSlice";
 import "../styles/pagination.css";
 
 const Pagination: React.FC = () => {
   const dispatch = useAppDispatch();
-  const { totalCount, postsPerPage, currentPage } = useAppSelector((state) => state.posts);
-  const numberOfPages: number[] = Array(totalCount / postsPerPage)
-    .fill(null)
-    .map((item, i) => i + 1);
+  const { normalizedPosts, postsPerPage, currentPage } = useAppSelector((state) => state.posts);
+
+  const numberOfPages = Math.ceil(normalizedPosts.length / postsPerPage);
+  const pages = [];
+  
+  for (let i = 0; i < numberOfPages; i += 1) {
+    pages.push(i + 1);
+  }
+
 
   function nextPage() {
-    const nextPageNumber = currentPage + 1 > totalCount / postsPerPage ? 1 : currentPage + 1;
-    dispatch(actions.setCurrentPage(nextPageNumber));
+    const nextPageNumber =
+      currentPage + 1 > numberOfPages ? 1 : currentPage + 1;
+    dispatch(setCurrentPage(nextPageNumber));
   }
   function prevPage() {
-    const prevPageNumber = currentPage - 1 < 1 ? totalCount / postsPerPage : currentPage - 1;
-    dispatch(actions.setCurrentPage(prevPageNumber));
+    const prevPageNumber =
+      currentPage - 1 < 1 ? numberOfPages : currentPage - 1;
+    dispatch(setCurrentPage(prevPageNumber));
   }
 
   return (
@@ -25,8 +32,8 @@ const Pagination: React.FC = () => {
         Назад
       </div>
       <div className="pagination__page-buttons-container">
-        {totalCount &&
-          numberOfPages.map((number) => {
+        {normalizedPosts.length &&
+          pages.map((number) => {
             const buttonClasses = `pagination__page-button ${
               number === currentPage ? "page-active" : null
             }`;
@@ -34,7 +41,7 @@ const Pagination: React.FC = () => {
               <span
                 key={number}
                 className={buttonClasses}
-                onClick={() => dispatch(actions.setCurrentPage(number))}>
+                onClick={() => dispatch(setCurrentPage(number))}>
                 {number}
               </span>
             );

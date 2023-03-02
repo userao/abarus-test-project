@@ -1,5 +1,5 @@
 import React, { ReactElement, useState } from "react";
-import { actions } from "../slices/PostsSlice";
+import { setSearchParam } from "../slices/PostsSlice";
 import { useAppDispatch } from "../app/hooks";
 import "../styles/search-bar.css";
 
@@ -9,7 +9,7 @@ const SearchBar: React.FC = (): ReactElement => {
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    dispatch(actions.setSearchBy(inputValue));
+    dispatch(setSearchParam(inputValue));
     setInputValue("");
   }
 
