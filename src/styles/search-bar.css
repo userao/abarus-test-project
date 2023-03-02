@@ -18,7 +18,8 @@
 }
 
 .search-bar__button {
-    cursor: pointer;
+    display: flex;
+    align-items: center;
     background: #5A5C66;
     border: none;
     padding: 0 1rem;

@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import { setSearchParam } from "../slices/PostsSlice";
 import { useAppDispatch } from "../app/hooks";
 import "../styles/search-bar.css";
@@ -7,18 +7,16 @@ const SearchBar: React.FC = (): ReactElement => {
   const [inputValue, setInputValue] = useState<string>("");
   const dispatch = useAppDispatch();
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    dispatch(setSearchParam(inputValue));
-    setInputValue("");
-  }
-
   function handleChange(e: React.FormEvent<HTMLInputElement>) {
     setInputValue(e.currentTarget.value);
   }
 
+  useEffect(() => {
+    dispatch(setSearchParam(inputValue));
+  }, [inputValue, dispatch])
+
   return (
-    <form className="search-bar" onSubmit={handleSubmit}>
+    <div className="search-bar">
       <input
         onChange={handleChange}
         type="text"
@@ -26,7 +24,7 @@ const SearchBar: React.FC = (): ReactElement => {
         placeholder="Поиск"
         value={inputValue}
       />
-      <button type="submit" className="search-bar__button">
+      <div className="search-bar__button">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="21"
@@ -36,8 +34,8 @@ const SearchBar: React.FC = (): ReactElement => {
           viewBox="0 0 16 16">
           <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
         </svg>
-      </button>
-    </form>
+      </div>
+    </div>
   );
 };
 
