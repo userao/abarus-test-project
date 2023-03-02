@@ -6,8 +6,10 @@ import "../styles/posts.css";
 import { IPost } from "../types/postsTypes";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import BlankLine from "./BlankLine";
+import { useNavigate } from "react-router-dom";
 
 const Posts: React.FC = (): ReactElement => {
+  const navigate = useNavigate();
   const { normalizedPosts, postsPerPage, currentPage, isSortedByAsc, sortedColumn } =
     useAppSelector((state) => state.posts);
   const [shownPosts, setShownPosts] = useState<IPost[]>([]);
@@ -18,7 +20,6 @@ const Posts: React.FC = (): ReactElement => {
     emptyLines.push(<BlankLine key={i} />);
   }
 
-
   useEffect(() => {
     const firstPostIndex = (currentPage - 1) * postsPerPage;
     const posts = normalizedPosts.filter((post, i) => {
@@ -27,6 +28,7 @@ const Posts: React.FC = (): ReactElement => {
       }
       return false;
     });
+    navigate(`${currentPage}`);
     setShownPosts(posts);
   }, [currentPage, postsPerPage, setShownPosts, normalizedPosts]);
 

@@ -14,6 +14,7 @@ root.render(
     <BrowserRouter>
       <Routes>
         <Route path="/posts" element={<App />} />
+        <Route path="/posts/*" element={<App />} />
         <Route path="*" element={<Navigate to="/posts" replace />} />
       </Routes>
     </BrowserRouter>

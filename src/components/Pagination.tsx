@@ -9,20 +9,17 @@ const Pagination: React.FC = () => {
 
   const numberOfPages = Math.ceil(normalizedPosts.length / postsPerPage);
   const pages = [];
-  
+
   for (let i = 0; i < numberOfPages; i += 1) {
     pages.push(i + 1);
   }
 
-
   function nextPage() {
-    const nextPageNumber =
-      currentPage + 1 > numberOfPages ? 1 : currentPage + 1;
+    const nextPageNumber = currentPage + 1 > numberOfPages ? 1 : currentPage + 1;
     dispatch(setCurrentPage(nextPageNumber));
   }
   function prevPage() {
-    const prevPageNumber =
-      currentPage - 1 < 1 ? numberOfPages : currentPage - 1;
+    const prevPageNumber = currentPage - 1 < 1 ? numberOfPages : currentPage - 1;
     dispatch(setCurrentPage(prevPageNumber));
   }
 
