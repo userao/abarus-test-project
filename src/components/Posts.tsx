@@ -15,7 +15,7 @@ const Posts: React.FC = (): ReactElement => {
   const numberOfEmptyLines = 10 - shownPosts.length;
   const emptyLines = [];
   for (let i = 0; i < numberOfEmptyLines; i += 1) {
-    emptyLines.push(<BlankLine />);
+    emptyLines.push(<BlankLine key={i} />);
   }
 
 
@@ -38,27 +38,27 @@ const Posts: React.FC = (): ReactElement => {
   return (
     <div className="posts">
       <button className="posts__header" name="id" onClick={handleClick}>
-        ID
+        <span>ID</span>
         {sortedColumn === "id" && !isSortedByAsc ? (
-          <ChevronUp className={"chevron"} size={16} color="white" />
+          <ChevronUp className={"chevron"} size={14} color="white" />
         ) : (
-          <ChevronDown className={"chevron"} size={16} color="white" />
+          <ChevronDown className={"chevron"} size={14} color="white" />
         )}
       </button>
       <button className="posts__header" name="title" onClick={handleClick}>
-        Заголовок
+        <span>Заголовок</span>
         {sortedColumn === "title" && !isSortedByAsc ? (
-          <ChevronUp className={"chevron"} size={16} color="white" />
+          <ChevronUp className={"chevron"} size={14} color="white" />
         ) : (
-          <ChevronDown className={"chevron"} size={16} color="white" />
+          <ChevronDown className={"chevron"} size={14} color="white" />
         )}
       </button>
       <button className="posts__header" name="body" onClick={handleClick}>
-        Описание
+        <span>Описание</span>
         {sortedColumn === "body" && !isSortedByAsc ? (
-          <ChevronUp className={"chevron"} size={16} color="white" />
+          <ChevronUp className={"chevron"} size={14} color="white" />
         ) : (
-          <ChevronDown className={"chevron"} size={16} color="white" />
+          <ChevronDown className={"chevron"} size={14} color="white" />
         )}
       </button>
       {shownPosts.map((post) => {

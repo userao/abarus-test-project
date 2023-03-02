@@ -1,4 +1,5 @@
 .pagination {
+    font-family: 'Roboto', sans-serif;
     display: flex;
     justify-content: space-between;
     margin: 1rem auto;
@@ -8,13 +9,16 @@
 
 .pagination__nav-button {
     cursor: pointer;
-    font: normal 500 1.3rem 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 1.3rem;
 }
 
 .pagination__page-buttons-container {
     display: flex;
     align-items: center;
-    font: italic bold 1rem 'Roboto', sans-serif;
+    font-style: italic;
+    font-weight: bold;
+    font-size:  1rem;
 }
 
 .pagination__page-button {

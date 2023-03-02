@@ -2,10 +2,16 @@
     display: grid;
     color: #FFF;
     grid-template-columns: 0.7fr 3fr 4fr;
-    font: 1em 'Roboto', sans-serif;
+    font-size: 1em;
+    
 }
 
 .posts__header {
+    display: flex;
+    justify-content: space-around;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 14px;
     color: #FFF;
     border: none;
     background: #474955;
@@ -21,6 +27,7 @@
 .posts__item {
     display: flex;
     align-items: center;
+    font-weight: 500;
     color: #474955;
     border: solid #E3E6EC 1px;
     padding: 1rem;
@@ -29,8 +36,4 @@
 
 .posts__item-id {
     justify-content: center;
-}
-
-.chevron {
-    margin-left: 40px;
 }
